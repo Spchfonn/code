@@ -14,7 +14,6 @@ int main(){
         }
     }
     cout << l[len_s][len_t] << "\n";
-    //xxx
 
     return 0;
 }
