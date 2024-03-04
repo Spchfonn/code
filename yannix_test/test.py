@@ -1,0 +1,13 @@
+n = int(input('Input : n = '))
+print('x', end = '')
+print(' '*(n-2), end = '')
+print('x')
+for i in range(n-2):
+    print('x', end = '')
+    print(' '*i, end = '')
+    print('x', end = '')
+    print(' '*(n-3-i), end = '')
+    print('x')
+print('x', end = '')
+print(' '*(n-2), end = '')
+print('x')

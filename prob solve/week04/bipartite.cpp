@@ -14,26 +14,6 @@ int main(){
             arr[v].push_back(u);
         }
         q.push_back(1);
-        // while(!q.empty()){
-        //     int i = q.front();
-        //     if(mark[i]==0){
-        //         mark[i] = 1;
-        //         for(auto j:arr[i]){
-        //             q.push_back(j);
-        //             mark[j] = -mark[i];
-        //         }
-        //     }
-        //     else{
-        //         for(auto j:arr[i]){
-        //             if(mark[i]==mark[j]){
-        //                 ans = 1;
-        //                 break;
-        //             }
-        //         }
-        //     }
-        //     if(ans==1) break;
-        //     q.pop_front();
-        // }
         mark[1] = 1;
         while(!q.empty()){
             int i = q.front();
