@@ -1,54 +1,42 @@
 #include<bits/stdc++.h>
-#include<list>
-#include<algorithm>
 using namespace std;
 list<int> ans[300100];
-list<int> :: iterator pos;
+int root[300100];
 int main(){
-    int n, x, y;
-    cin >> n;
+    int num, n, x, y;
+    cin >> num;
+    n = num;
     for(int i=1;i<=n;i++){
         ans[i].push_back(i);
+        root[i] = i;
     }
     n--;
     while(n--){
         cin >> x >> y;
         if(!(ans[y].empty())){
-            list<int>::iterator it = ans[y].begin(); 
+            auto it = ans[y].begin(); 
             advance(it,1);
-            ans[y].insert(it, ans[x].begin(), ans[x].end());
+            for(auto i:ans[x]){
+                ans[y].insert(it, i);
+                root[i] = root[y];
+            }
             ans[x].clear();
         }
         else{
-            for(int i=1;i<=n;i++){
-                if(ans[i].size()==0 || i==x) continue;
-                else{
-                    pos = find(ans[i].begin(), ans[i].end(), y);
-                    if(!(pos != ans[i].end())) continue;
-                    else{
-                        advance(pos,1);
-                        ans[i].insert(pos, ans[x].begin(), ans[x].end());
-                        ans[x].clear();
-                        break;
-                    }
-                }
+            int i = root[y];
+            auto pos = find(ans[i].begin(), ans[i].end(), y);
+            advance(pos,1);
+            for(auto j:ans[x]){
+                ans[i].insert(pos, j);
+                root[j] = root[y];
             }
+            ans[x].clear();
         }
-        for(int k=0;k<300100;k++){
-            if(ans[k].size()==0) continue;
-            for(auto i=ans[k].begin();i!=ans[k].end();i++){
-                cout << *i << " ";
-            }
-        }
-        cout << "\n";
     }
-
-    for(int k=0;k<300100;k++){
-        if(ans[k].size()==0) continue;
-        for(auto i=ans[k].begin();i!=ans[k].end();i++){
-            cout << *i << " ";
-        }
+    for(int k=1;k<=num;k++){
+        for(auto i:ans[k]) cout << i << " ";
     }
     
     return 0;
 }
+
