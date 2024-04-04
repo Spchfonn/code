@@ -1,45 +1,47 @@
+// score: 57 [ -P-P-PP ]
 #include<bits/stdc++.h>
 using namespace std;
-list<int> arr[100010], q;
-int mark[100010];
-int main(){
-    int k, n, m, u, v, ans, cnt = 0;
-    cin >> k;
-    while(k--){
-        ans = 0;
-        cin >> n >> m;
-        while(m--){
-            cin >> u >> v;
-            arr[u].push_back(v);
-            arr[v].push_back(u);
+vector<int> arr[100010], q;
+int mark[100010], check[100010];
+void findqueue(int x){
+    if(find(q.begin(), q.end(), x)!=q.end()) q.push_back(x);
+    check[x] = 1;
+    for(auto i:arr[x]){
+        if(find(q.begin(), q.end(), i)!=q.end()){
+            q.push_back(i);
+            if(check[i]==0) findqueue(i);
         }
-        q.push_back(1);
-        mark[1] = 1;
-        while(!q.empty()){
-            int i = q.front();
-            for(auto j:arr[i]){
-                if(mark[j]==0){
-                    q.push_back(j);
-                    mark[j] = -mark[i];
+    }
+}
+int main(){
+    int n, m, a, b, cnt = 0;
+    cin >> n >> m;
+    while(m--){
+        cin >> a >> b;
+        if(mark[a]==0 && mark[b]==0){
+            mark[a] = 1;
+            mark[b] = -1;
+        }
+        else if(mark[a]==0) mark[a] = -mark[b];
+        else if(mark[b]==0) mark[b] = -mark[a];
+        else{
+            if(mark[a]==mark[b]){
+                while(!q.empty()) q.pop_back();
+                memset(check, 0, sizeof(check));
+                findqueue(b);
+                for(auto i:q){
+                    mark[i] = -mark[i];
                 }
-                else if(mark[i]==mark[j]){
-                    ans = 1;
+                if(mark[a]==mark[b]){
                     break;
                 }
             }
-            if(ans==1) break;
-            q.pop_front();
         }
-        if(ans==0) cout << "yes\n";
-        else cout << "no\n";
-        for(int i=1;i<=n;i++){
-            arr[i].clear();
-            mark[i] = 0;
-        }
-        if(!q.empty()) q.clear();
+        cnt++;
+        arr[a].push_back(b);
+        arr[b].push_back(a);
     }
     cout << cnt << "\n";
-    //xxxx
 
     return 0;
 }
